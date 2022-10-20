@@ -1,0 +1,1 @@
+{"resources":{"src/main/resources/db/migration/V01__cria_tabela_ecommerce.sql":{"default-datasource":"postgres-jdbc-183f1c6202f-7f818fb2cf34168d","default-catalog":"postgres"}}}

@@ -1,7 +1,5 @@
 package org.serratec.backend.projetoFinal.domain;
 
-import java.util.Objects;
-
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -17,112 +15,101 @@ import javax.validation.constraints.NotNull;
 @Table(name = "item_pedido", schema = "public")
 public class ItemPedido {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id_item_pedido")
-    private Long id;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "id_item_pedido")
+	private Long id;
 
-    @NotNull
-    @Column(nullable = false)
-    private Integer quantidade;
+	@NotNull
+	@Column(nullable = false)
+	private Integer quantidade;
 
-    @NotNull
-    @Column(nullable = false)
-    private Integer precoVenda;
+	@NotNull
+	@Column(name = "preco_venda", nullable = false)
+	private Integer precoVenda;
 
-    @NotNull
-    @Column(nullable = false)
-    private Integer percentualDesconto;
+	@NotNull
+	@Column(name = "percentual_desconto", nullable = false)
+	private Integer percentualDesconto;
 
-    @OneToOne(cascade = CascadeType.REFRESH)
-    @JoinColumn(name = "id_pedido")
-    private Pedido pedido;
+	@NotNull
+	@Column(name = "valor_bruto", nullable = false)
+	private Integer valorBruto;
 
-    @OneToOne(cascade = CascadeType.REFRESH)
-    @JoinColumn(name = "id_produto")
-    private Produto produto;
+	@NotNull
+	@Column(name = "valor_liquido", nullable = false)
+	private Integer valorLiquido;
 
-    public ItemPedido() {
-        super();
-    }
+	@OneToOne(cascade = CascadeType.REFRESH)
+	@JoinColumn(name = "id_pedido")
+	private Pedido pedido;
 
-    public ItemPedido(Long id, @NotNull Integer quantidade, @NotNull Integer precoVenda,
-            @NotNull Integer percentualDesconto, Pedido pedido, Produto produto) {
-        super();
-        this.id = id;
-        this.quantidade = quantidade;
-        this.precoVenda = precoVenda;
-        this.percentualDesconto = percentualDesconto;
-        this.pedido = pedido;
-        this.produto = produto;
-    }
+	@OneToOne(cascade = CascadeType.REFRESH)
+	@JoinColumn(name = "id_produto")
+	private Produto produto;
 
-    public Integer getPercentualDesconto() {
-        return percentualDesconto;
-    }
+	public Long getId() {
+		return id;
+	}
 
-    public void setPercentualDesconto(Integer percentualDesconto) {
-        this.percentualDesconto = percentualDesconto;
-    }
+	public void setId(Long id) {
+		this.id = id;
+	}
 
-    public Long getId() {
-        return id;
-    }
+	public Integer getQuantidade() {
+		return quantidade;
+	}
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+	public void setQuantidade(Integer quantidade) {
+		this.quantidade = quantidade;
+	}
 
-    public Integer getQuantidade() {
-        return quantidade;
-    }
+	public Integer getPrecoVenda() {
+		return precoVenda;
+	}
 
-    public void setQuantidade(Integer quantidade) {
-        this.quantidade = quantidade;
-    }
+	public void setPrecoVenda(Integer precoVenda) {
+		this.precoVenda = precoVenda;
+	}
 
-    public Integer getPrecoVenda() {
-        return precoVenda;
-    }
+	public Integer getPercentualDesconto() {
+		return percentualDesconto;
+	}
 
-    public void setPrecoVenda(Integer precoVenda) {
-        this.precoVenda = precoVenda;
-    }
+	public void setPercentualDesconto(Integer percentualDesconto) {
+		this.percentualDesconto = percentualDesconto;
+	}
 
-    public Pedido getPedido() {
-        return pedido;
-    }
+	public Integer getValorBruto() {
+		return valorBruto;
+	}
 
-    public void setPedido(Pedido pedido) {
-        this.pedido = pedido;
-    }
+	public void setValorBruto(Integer valorBruto) {
+		this.valorBruto = valorBruto;
+	}
 
-    public Produto getProduto() {
-        return produto;
-    }
+	public Integer getValorLiquido() {
+		return valorLiquido;
+	}
 
-    public void setProduto(Produto produto) {
-        this.produto = produto;
-    }
+	public void setValorLiquido(Integer valorLiquido) {
+		this.valorLiquido = valorLiquido;
+	}
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, pedido, percentualDesconto, precoVenda, produto, quantidade);
-    }
+	public Pedido getPedido() {
+		return pedido;
+	}
 
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (obj == null)
-            return false;
-        if (getClass() != obj.getClass())
-            return false;
-        ItemPedido other = (ItemPedido) obj;
-        return Objects.equals(id, other.id) && Objects.equals(pedido, other.pedido)
-                && Objects.equals(percentualDesconto, other.percentualDesconto)
-                && Objects.equals(precoVenda, other.precoVenda) && Objects.equals(produto, other.produto)
-                && Objects.equals(quantidade, other.quantidade);
-    }
+	public void setPedido(Pedido pedido) {
+		this.pedido = pedido;
+	}
+
+	public Produto getProduto() {
+		return produto;
+	}
+
+	public void setProduto(Produto produto) {
+		this.produto = produto;
+	}
 
 }

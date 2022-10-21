@@ -12,42 +12,22 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
 @Entity
-@Table(name="categoria")
+@Table(name = "categoria")
 public class Categoria {
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id_categoria")
 	private Long id;
-	
-	@Column(name="nome",nullable = true, length = 30)
+
+	@NotBlank(message = "Preencha o nome")
+	@Size(min = 3, max = 30, message = "Nome da categoria deve ser entre {min} e {max} caracteres")
+	@Column(nullable = false, length = 30, unique = true)
 	private String nome;
-	
-	@Size(max = 200)
-	@Column(name="descricao",nullable = true, length = 200)
+
+	@Size(min = 3, max = 200, message = "Descrição deve ser entre {min} e {max} caracteres")
+	@Column(length = 200)
 	private String descricao;
-	
-	
-
-	public Categoria() {
-		super();
-	}
-	
-	
-
-	public Categoria(Long id) {
-		this.id = id;
-	}
-
-
-
-	public Categoria(Long id, @NotBlank(message = "Prencher nome") @Size(max = 30) String nome,
-			@NotBlank(message = "Prencher descrição") @Size(max = 150) String descricao) {
-		super();
-		this.id = id;
-		this.nome = nome;
-		this.descricao = descricao;
-	}
 
 	public Long getId() {
 		return id;
@@ -75,7 +55,7 @@ public class Categoria {
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(descricao, id, nome);
+		return Objects.hash(descricao, id);
 	}
 
 	@Override
@@ -87,10 +67,7 @@ public class Categoria {
 		if (getClass() != obj.getClass())
 			return false;
 		Categoria other = (Categoria) obj;
-		return Objects.equals(descricao, other.descricao) && Objects.equals(id, other.id)
-				&& Objects.equals(nome, other.nome);
+		return Objects.equals(descricao, other.descricao) && Objects.equals(id, other.id);
 	}
-	
-	
-	
+
 }

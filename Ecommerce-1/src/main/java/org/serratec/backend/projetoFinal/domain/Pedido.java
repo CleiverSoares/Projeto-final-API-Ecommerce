@@ -1,7 +1,6 @@
 package org.serratec.backend.projetoFinal.domain;
 
 import java.time.LocalDate;
-import java.util.Objects;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -11,134 +10,102 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.validation.constraints.NotNull;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
 @Entity
 public class Pedido {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id_pedido")
-    private Long id;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "id_pedido")
+	private Long id;
 
-    @NotNull
-    @Column(nullable = false, name = "data_pedido")
-    private LocalDate dataPedido;
+	@NotBlank(message = "Digete a data do pedido.")
+	@Column(name = "data_pedido", nullable = false)
+	private LocalDate dataPedido;
 
-    @Column(nullable = true, name = "data_entrega")
-    private LocalDate dataEntrega;
+	@Column(name = "data_entrega")
+	private LocalDate dataEntrega;
 
-    @Column(nullable = true, name = "data_envio")
-    private LocalDate dataEnvio;
+	@Column(name = "data_envio")
+	private LocalDate dataEnvio;
 
-    @Size(max = 20)
-    @Column(nullable = true, length = 20)
-    private String status;
+	@NotBlank(message = "Digete o status")
+	@Size(max = 1, message = "Status tem que ser {max} caracter")
+	@Column(name = "status", length = 1)
+	private String status;
 
-    @NotNull
-    @Column(name = "valor_total", nullable = false)
-    private Double valorTotal;
+	@Column(name = "valor_total")
+	private Double valorTotal;
 
-    @ManyToOne(cascade = CascadeType.REFRESH)
-    @JoinColumn(name = "id_cliente")
-    private Cliente cliente;
+	@ManyToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "id_cliente")
+	private Cliente cliente;
 
-    public Pedido() {
-        super();
-    }
+	public Pedido() {
+		super();
+	}
 
-    public Pedido(Long id) {
-        super();
-        this.id = id;
-    }
+	public Pedido(Long id) {
+		super();
+		this.id = id;
+	}
 
-    public Double getValorTotal() {
-        return valorTotal;
-    }
+	public Double getValorTotal() {
+		return valorTotal;
+	}
 
-    public void setValorTotal(Double valorTotal) {
-        this.valorTotal = valorTotal;
-    }
+	public void setValorTotal(Double valorTotal) {
+		this.valorTotal = valorTotal;
+	}
 
-    public Pedido(Long id, @NotNull LocalDate dataPedido, LocalDate dataEntrega, LocalDate dataEnvio,
-            @Size(max = 20) String status, @NotNull Double valorTotal, Cliente cliente) {
-        super();
-        this.id = id;
-        this.dataPedido = dataPedido;
-        this.dataEntrega = dataEntrega;
-        this.dataEnvio = dataEnvio;
-        this.status = status;
-        this.valorTotal = valorTotal;
-        this.cliente = cliente;
-    }
+	public Long getId() {
+		return id;
+	}
 
-    public Long getId() {
-        return id;
-    }
+	public void setId(Long id) {
+		this.id = id;
+	}
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+	public LocalDate getDataPedido() {
+		return dataPedido;
+	}
 
-    public LocalDate getDataPedido() {
-        return dataPedido;
-    }
+	public void setDataPedido(LocalDate dataPedido) {
+		this.dataPedido = dataPedido;
+	}
 
-    public void setDataPedido(LocalDate dataPedido) {
-        this.dataPedido = dataPedido;
-    }
+	public LocalDate getDataEntrega() {
+		return dataEntrega;
+	}
 
-    public LocalDate getDataEntrega() {
-        return dataEntrega;
-    }
+	public void setDataEntrega(LocalDate dataEntrega) {
+		this.dataEntrega = dataEntrega;
+	}
 
-    public void setDataEntrega(LocalDate dataEntrega) {
-        this.dataEntrega = dataEntrega;
-    }
+	public LocalDate getDataEnvio() {
+		return dataEnvio;
+	}
 
-    public LocalDate getDataEnvio() {
-        return dataEnvio;
-    }
+	public void setDataEnvio(LocalDate dataEnvio) {
+		this.dataEnvio = dataEnvio;
+	}
 
-    public void setDataEnvio(LocalDate dataEnvio) {
-        this.dataEnvio = dataEnvio;
-    }
+	public String getStatus() {
+		return status;
+	}
 
-    public String getStatus() {
-        return status;
-    }
+	public void setStatus(String status) {
+		this.status = status;
+	}
 
-    public void setStatus(String status) {
-        this.status = status;
-    }
+	public Cliente getCliente() {
+		return cliente;
+	}
 
-    public Cliente getCliente() {
-        return cliente;
-    }
-
-    public void setCliente(Cliente cliente) {
-        this.cliente = cliente;
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(cliente, dataEntrega, dataEnvio, dataPedido, id, status, valorTotal);
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (obj == null)
-            return false;
-        if (getClass() != obj.getClass())
-            return false;
-        Pedido other = (Pedido) obj;
-        return Objects.equals(cliente, other.cliente) && Objects.equals(dataEntrega, other.dataEntrega)
-                && Objects.equals(dataEnvio, other.dataEnvio) && Objects.equals(dataPedido, other.dataPedido)
-                && Objects.equals(id, other.id) && Objects.equals(status, other.status)
-                && Objects.equals(valorTotal, other.valorTotal);
-    }
+	public void setCliente(Cliente cliente) {
+		this.cliente = cliente;
+	}
 
 }

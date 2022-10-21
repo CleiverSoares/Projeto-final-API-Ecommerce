@@ -6,155 +6,138 @@ import java.util.Objects;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import org.hibernate.annotations.Type;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 @Entity
 public class Produto {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id_produto")
-    private Long id;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "id_produto")
+	private Long id;
 
-    @NotBlank(message = "Prencher nome")
-    @Size(max = 30)
-    @Column(nullable = false, length = 30)
-    private String nome;
+	@Size(min = 3, max = 30, message = "Nome do produto deve ser entre {min} e {max} caracteres")
+	@NotBlank(message = "Preencha o nome")
+	@Column(nullable = false, length = 30, unique = true)
+	private String nome;
 
-    @Size(max = 100)
-    @Column(nullable = true, length = 100)
-    private String descricao;
+	@Size(min = 3, max = 200, message = "Descriçao deve ser entre {min} e {max} caracteres")
+	@Column(nullable = true, length = 200)
+	private String descricao;
 
-    @NotNull
-    @Column(nullable = false, name = "qtd_estoque")
-    private Integer qtdEstoque;
+	@NotNull(message = "Quantidade de estoque deve ser preenchido")
+	@Column(nullable = false, name = "qtd_estoque")
+	private Integer qtdEstoque;
 
-    @Column(nullable = true, name = "data_cadastro")
-    private LocalDate dataCadastro;
+//	@NotBlank(message = "Data de cadastro deve ser preenchido")
+	@JsonFormat(pattern = "dd/MM/yyyy")
+	@Column(nullable = false, name = "data_cadastro ")
+	private LocalDate dataCadastro;
 
-    @NotNull
-    @Column(nullable = false, name = "valor_unitario")
-    private Float valorUnitario;
+	@NotNull(message = "Valor unitário deve ser preenchido")
+	@Column(nullable = false, name = "valor_unitario")
+	private Double valorUnitario;
 
-    @Column(nullable = true, name = "imagem")
-    private byte[] imagem;
+	@Lob
+	@Type(type = "org.hibernate.type.BinaryType")
+	@Column(nullable = false)
+	private Byte[] imagem;
 
-    @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "id_categoria")
-    @Enumerated(EnumType.STRING)
-    private Categoria categoria;
+	@ManyToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "id_categoria", nullable = false)
+	private Categoria categoria;
 
-    public Produto() {
-        super();
-    }
+	public Long getId() {
+		return id;
+	}
 
-    public Produto(Long id) {
-        super();
-        this.id = id;
-    }
+	public void setId(Long id) {
+		this.id = id;
+	}
 
-    public Produto(Long id, @NotBlank(message = "Prencher nome") @Size(max = 30) String nome,
-            @Size(max = 100) String descricao, @NotNull Integer qtdEstoque, LocalDate dataCadastro,
-            @NotNull Float valorUnitario, byte[] imagem, Categoria categoria) {
-        super();
-        this.id = id;
-        this.nome = nome;
-        this.descricao = descricao;
-        this.qtdEstoque = qtdEstoque;
-        this.dataCadastro = dataCadastro;
-        this.valorUnitario = valorUnitario;
-        this.imagem = imagem;
-        this.categoria = categoria;
-    }
+	public String getNome() {
+		return nome;
+	}
 
-    public Long getId() {
-        return id;
-    }
+	public void setNome(String nome) {
+		this.nome = nome;
+	}
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+	public String getDescricao() {
+		return descricao;
+	}
 
-    public String getNome() {
-        return nome;
-    }
+	public void setDescricao(String descricao) {
+		this.descricao = descricao;
+	}
 
-    public void setNome(String nome) {
-        this.nome = nome;
-    }
+	public Integer getQtdEstoque() {
+		return qtdEstoque;
+	}
 
-    public String getDescricao() {
-        return descricao;
-    }
+	public void setQtdEstoque(Integer qtdEstoque) {
+		this.qtdEstoque = qtdEstoque;
+	}
 
-    public void setDescricao(String descricao) {
-        this.descricao = descricao;
-    }
+	public LocalDate getDataCadastro() {
+		return dataCadastro;
+	}
 
-    public Integer getQtdEstoque() {
-        return qtdEstoque;
-    }
+	public void setDataCadastro(LocalDate dataCadastro) {
+		this.dataCadastro = dataCadastro;
+	}
 
-    public void setQtdEstoque(Integer qtdEstoque) {
-        this.qtdEstoque = qtdEstoque;
-    }
+	public Double getValorUnitario() {
+		return valorUnitario;
+	}
 
-    public LocalDate getDataCadastro() {
-        return dataCadastro;
-    }
+	public void setValorUnitario(Double valorUnitario) {
+		this.valorUnitario = valorUnitario;
+	}
 
-    public void setDataCadastro(LocalDate dataCadastro) {
-        this.dataCadastro = dataCadastro;
-    }
+	public Byte[] getImagem() {
+		return imagem;
+	}
 
-    public Float getValorUnitario() {
-        return valorUnitario;
-    }
+	public void setImagem(Byte[] imagem) {
+		this.imagem = imagem;
+	}
 
-    public void setValorUnitario(Float valorUnitario) {
-        this.valorUnitario = valorUnitario;
-    }
+	public Categoria getCategoria() {
+		return categoria;
+	}
 
-    public byte[] getImagem() {
-        return imagem;
-    }
+	public void setCategoria(Categoria categoria) {
+		this.categoria = categoria;
+	}
 
-    public void setImagem(byte[] imagem) {
-        this.imagem = imagem;
-    }
+	@Override
+	public int hashCode() {
+		return Objects.hash(descricao, id);
+	}
 
-    public Categoria getCategoria() {
-        return categoria;
-    }
-
-    public void setCategoria(Categoria categoria) {
-        this.categoria = categoria;
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(descricao, id);
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (obj == null)
-            return false;
-        if (getClass() != obj.getClass())
-            return false;
-        Produto other = (Produto) obj;
-        return Objects.equals(descricao, other.descricao) && Objects.equals(id, other.id);
-    }
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Produto other = (Produto) obj;
+		return Objects.equals(descricao, other.descricao) && Objects.equals(id, other.id);
+	}
 
 }

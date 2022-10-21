@@ -53,13 +53,10 @@ public class ClienteController {
 	@ResponseStatus(HttpStatus.CREATED)
 	public ResponseEntity<Cliente> inserir(@Valid @RequestBody ClienteInserirDto clienteInserirDto) {
 		Cliente cliente1 = clienteService.inserir(clienteInserirDto);
-//		return ResponseEntity.ok(cliente1);
 		if (null != cliente1) {
 			return ResponseEntity.ok(cliente1);
-//			return null;
 		}
 		return ResponseEntity.notFound().build();
-//		return null;
 	}
 
 	@PutMapping("/atualizar/{id}")
@@ -67,9 +64,8 @@ public class ClienteController {
 		Cliente cliente1 = clienteService.atualizar(id, cliente);
 		if (null != cliente1) {
 			return ResponseEntity.ok(cliente1);
-		} else {
-			return ResponseEntity.notFound().build();
 		}
+		return ResponseEntity.notFound().build();
 	}
 
 	@DeleteMapping("/deletar/{id}")
@@ -81,5 +77,4 @@ public class ClienteController {
 		}
 		return ResponseEntity.noContent().build();
 	}
-
 }

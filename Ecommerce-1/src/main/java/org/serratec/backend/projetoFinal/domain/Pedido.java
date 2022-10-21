@@ -11,131 +11,134 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 @Entity
 public class Pedido {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "id_pedido")
-	private Long id;
-	
-	@NotNull
-	@Column(nullable = false, name = "data_pedido")
-	private LocalDate dataPedido;
-	
-	@Column(nullable = true, name = "data_entrega")
-	private LocalDate dataEntrega ;
-	
-	@Column(nullable = true, name = "data_envio")
-	private LocalDate dataEnvio;
-	
-	@Size(max = 20)
-	@Column(nullable = true, length = 20)
-	private String status;
-	
-	@ManyToOne(cascade = CascadeType.REFRESH)
-	@JoinColumn(name = "id_cliente")
-	private Cliente cliente;
-	
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id_pedido")
+    private Long id;
 
-	public Pedido() {
-		super();
-	}
-	
-	
+    @NotNull
+    @Column(nullable = false, name = "data_pedido")
+    private LocalDate dataPedido;
 
-	public Pedido(Long id) {
-		super();
-		this.id = id;
-	}
+    @Column(nullable = true, name = "data_entrega")
+    private LocalDate dataEntrega;
 
+    @Column(nullable = true, name = "data_envio")
+    private LocalDate dataEnvio;
 
+    @Size(max = 20)
+    @Column(nullable = true, length = 20)
+    private String status;
 
-	public Pedido(Long id, @NotBlank(message = "Prencher data do pedido") LocalDate dataPedido,
-			@NotBlank(message = "Prencher data de entrega") LocalDate dataEntrega,
-			@NotBlank(message = "Prencher data de envio") LocalDate dataEnvio,
-			@NotBlank(message = "Prencher status") @Size(max = 20) String status, Cliente cliente) {
-		super();
-		this.id = id;
-		this.dataPedido = dataPedido;
-		this.dataEntrega = dataEntrega;
-		this.dataEnvio = dataEnvio;
-		this.status = status;
-		this.cliente = cliente;
-	}
+    @NotNull
+    @Column(name = "valor_total", nullable = false)
+    private Double valorTotal;
 
-	public Long getId() {
-		return id;
-	}
+    @ManyToOne(cascade = CascadeType.REFRESH)
+    @JoinColumn(name = "id_cliente")
+    private Cliente cliente;
 
-	public void setId(Long id) {
-		this.id = id;
-	}
+    public Pedido() {
+        super();
+    }
 
-	public LocalDate getDataPedido() {
-		return dataPedido;
-	}
+    public Pedido(Long id) {
+        super();
+        this.id = id;
+    }
 
-	public void setDataPedido(LocalDate dataPedido) {
-		this.dataPedido = dataPedido;
-	}
+    public Double getValorTotal() {
+        return valorTotal;
+    }
 
-	public LocalDate getDataEntrega() {
-		return dataEntrega;
-	}
+    public void setValorTotal(Double valorTotal) {
+        this.valorTotal = valorTotal;
+    }
 
-	public void setDataEntrega(LocalDate dataEntrega) {
-		this.dataEntrega = dataEntrega;
-	}
+    public Pedido(Long id, @NotNull LocalDate dataPedido, LocalDate dataEntrega, LocalDate dataEnvio,
+            @Size(max = 20) String status, @NotNull Double valorTotal, Cliente cliente) {
+        super();
+        this.id = id;
+        this.dataPedido = dataPedido;
+        this.dataEntrega = dataEntrega;
+        this.dataEnvio = dataEnvio;
+        this.status = status;
+        this.valorTotal = valorTotal;
+        this.cliente = cliente;
+    }
 
-	public LocalDate getDataEnvio() {
-		return dataEnvio;
-	}
+    public Long getId() {
+        return id;
+    }
 
-	public void setDataEnvio(LocalDate dataEnvio) {
-		this.dataEnvio = dataEnvio;
-	}
+    public void setId(Long id) {
+        this.id = id;
+    }
 
-	public String getStatus() {
-		return status;
-	}
+    public LocalDate getDataPedido() {
+        return dataPedido;
+    }
 
-	public void setStatus(String status) {
-		this.status = status;
-	}
+    public void setDataPedido(LocalDate dataPedido) {
+        this.dataPedido = dataPedido;
+    }
 
-	public Cliente getCliente() {
-		return cliente;
-	}
+    public LocalDate getDataEntrega() {
+        return dataEntrega;
+    }
 
-	public void setCliente(Cliente cliente) {
-		this.cliente = cliente;
-	}
+    public void setDataEntrega(LocalDate dataEntrega) {
+        this.dataEntrega = dataEntrega;
+    }
 
-	@Override
-	public int hashCode() {
-		return Objects.hash(cliente, dataEntrega, dataEnvio, dataPedido, id, status);
-	}
+    public LocalDate getDataEnvio() {
+        return dataEnvio;
+    }
 
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Pedido other = (Pedido) obj;
-		return Objects.equals(cliente, other.cliente) && Objects.equals(dataEntrega, other.dataEntrega)
-				&& Objects.equals(dataEnvio, other.dataEnvio) && Objects.equals(dataPedido, other.dataPedido)
-				&& Objects.equals(id, other.id) && Objects.equals(status, other.status);
-	}
-	
-	
-	
-	
+    public void setDataEnvio(LocalDate dataEnvio) {
+        this.dataEnvio = dataEnvio;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public Cliente getCliente() {
+        return cliente;
+    }
+
+    public void setCliente(Cliente cliente) {
+        this.cliente = cliente;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(cliente, dataEntrega, dataEnvio, dataPedido, id, status, valorTotal);
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        Pedido other = (Pedido) obj;
+        return Objects.equals(cliente, other.cliente) && Objects.equals(dataEntrega, other.dataEntrega)
+                && Objects.equals(dataEnvio, other.dataEnvio) && Objects.equals(dataPedido, other.dataPedido)
+                && Objects.equals(id, other.id) && Objects.equals(status, other.status)
+                && Objects.equals(valorTotal, other.valorTotal);
+    }
+
 }

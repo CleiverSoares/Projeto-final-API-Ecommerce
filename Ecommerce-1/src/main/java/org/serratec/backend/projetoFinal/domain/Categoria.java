@@ -7,10 +7,12 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
 @Entity
+@Table(name="categoria")
 public class Categoria {
 	
 	@Id
@@ -18,11 +20,11 @@ public class Categoria {
 	@Column(name = "id_categoria")
 	private Long id;
 	
-	@Column(nullable = true, length = 30)
+	@Column(name="nome",nullable = true, length = 30)
 	private String nome;
 	
-	@Size(max = 150)
-	@Column(nullable = true, length = 150)
+	@Size(max = 200)
+	@Column(name="descricao",nullable = true, length = 200)
 	private String descricao;
 	
 	

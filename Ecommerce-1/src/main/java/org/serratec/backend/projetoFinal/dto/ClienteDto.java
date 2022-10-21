@@ -1,6 +1,7 @@
 package org.serratec.backend.projetoFinal.dto;
 
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -12,7 +13,12 @@ public class ClienteDto {
 	private String nomeCompleto;
 	private String cpf;
 	private String telefone;
+	private LocalDate dataNascimento;
+	private Integer numero;
 	
+	
+
+
 	
 	public ClienteDto() {
 		
@@ -31,6 +37,7 @@ public class ClienteDto {
 		this.nomeCompleto = cliente.getNomeCompleto();
 		this.cpf = cliente.getCpf();
 		this.telefone = cliente.getTelefone();
+		
 		
 	}
 	
@@ -66,6 +73,22 @@ public class ClienteDto {
 	public void setTelefone(String telefone) {
 		this.telefone = telefone;
 	}
+
+    public LocalDate getDataNascimento() {
+        return dataNascimento;
+    }
+
+    public void setDataNascimento(LocalDate dataNascimento) {
+        this.dataNascimento = dataNascimento;
+    }
+
+    public Integer getNumero() {
+        return numero;
+    }
+
+    public void setNumero(Integer numero) {
+        this.numero = numero;
+    }
 	
 	
 

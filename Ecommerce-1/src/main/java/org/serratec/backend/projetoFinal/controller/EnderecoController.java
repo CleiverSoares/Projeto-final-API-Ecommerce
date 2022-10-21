@@ -62,7 +62,7 @@ public class EnderecoController {
 	}
 	
 	@PostMapping("/cadastrarPorCep")
-	public ResponseEntity<Endereco> cadastrarEnderecoPorCep(@PathParam("cep") String cep, @PathParam("numero") Integer numero, @PathParam("complemento") String complemento) {
+	public ResponseEntity<Endereco> cadastrarEnderecoPorCep(@PathParam("cep") String cep, @PathParam("numero") String numero, @PathParam("complemento") String complemento) {
 		
 		Endereco enderecoViaCepSite = viaCepService.buscarService(cep, numero) ;
 

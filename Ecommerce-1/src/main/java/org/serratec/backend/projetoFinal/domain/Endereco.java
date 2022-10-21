@@ -40,7 +40,7 @@ public class Endereco {
 	
 	@NotNull(message = "Preencher Número")
 	@Column(nullable = false)
-	private Integer numero;
+	private String  numero;
 	
 	@Size(max = 20)
 	@Column(nullable = true, length = 20)
@@ -49,6 +49,7 @@ public class Endereco {
 	@Size(max = 2)
 	@Column(nullable = true, length = 2)
 	private String estado;
+
 
 	
 	public Endereco() {
@@ -68,7 +69,7 @@ public class Endereco {
 	public Endereco(@NotBlank(message = "Preencher cep") @Size(max = 9) String cep,
 			@NotBlank(message = "Preencher rua") @Size(max = 100) String rua,
 			@NotBlank(message = "Preencher bairro") @Size(max = 50) String bairro, @Size(max = 30) String cidade,
-			@NotNull(message = "Preencher Número") Integer numero, @Size(max = 2) String estado) {
+			@NotNull(message = "Preencher Número")String numero, @Size(max = 2) String estado) {
 		super();
 		this.cep = cep;
 		this.rua = rua;
@@ -82,7 +83,7 @@ public class Endereco {
 	public Endereco(Long id, @NotBlank(message = "Preencher cep") @Size(max = 9) String cep,
 			@NotBlank(message = "Preencher rua") @Size(max = 100) String rua,
 			@NotBlank(message = "Preencher bairro") @Size(max = 50) String bairro, @Size(max = 30) String cidade,
-			@NotNull(message = "Preencher Número") Integer numero, @Size(max = 20) String complemento,
+			@NotNull(message = "Preencher Número") String numero, @Size(max = 20) String complemento,
 			@Size(max = 2) String estado) {
 		super();
 		this.id = id;
@@ -146,12 +147,12 @@ public class Endereco {
 	}
 
 
-	public Integer getNumero() {
+	public String getNumero() {
 		return numero;
 	}
 
 
-	public void setNumero(Integer numero) {
+	public void setNumero(String numero) {
 		this.numero = numero;
 	}
 

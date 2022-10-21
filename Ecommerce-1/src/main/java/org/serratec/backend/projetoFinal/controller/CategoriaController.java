@@ -55,7 +55,7 @@ public class CategoriaController {
     public ResponseEntity<List<Categoria>> retornaTodos() {
         List<Categoria> todasCategorias = service.retornaTodasCategorias();
         System.out.println();
-        if(!todasCategorias.isEmpty()) {
+        if(todasCategorias.isEmpty()) {
             return ResponseEntity.ok(todasCategorias);
         } else {
             return ResponseEntity.notFound().build();

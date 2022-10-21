@@ -7,6 +7,7 @@ import javax.validation.Valid;
 
 import org.serratec.backend.projetoFinal.domain.Cliente;
 import org.serratec.backend.projetoFinal.dto.ClienteDto;
+import org.serratec.backend.projetoFinal.dto.ClienteInserirDto;
 import org.serratec.backend.projetoFinal.service.ClienteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -28,6 +29,7 @@ public class ClienteController {
 	
 	@Autowired
 	private ClienteService clienteService;
+
 	
 	@GetMapping("/todos")
 	public ResponseEntity<List<Cliente>> listar(){
@@ -54,12 +56,13 @@ public class ClienteController {
 		return ResponseEntity.notFound().build();
 	}
 	
-	@PostMapping("/cadastrar")
-	@ResponseStatus(HttpStatus.CREATED)
-	public ResponseEntity<Cliente> inserir( @Valid @RequestBody Cliente cliente){
-		Cliente cliente1 = clienteService.inserir(cliente);
-		return ResponseEntity.ok(cliente1);
-	}
+	
+	   @PostMapping("/cadastrar/dto")
+	    @ResponseStatus(HttpStatus.CREATED)
+	    public ResponseEntity<Cliente> inserir( @Valid @RequestBody ClienteInserirDto clienteInserirDto){
+	        Cliente cliente1 = clienteService.inserir(clienteInserirDto);
+	        return ResponseEntity.ok(cliente1);
+	    }
 	
 	@PutMapping("/atualizar/{id}")
 	public ResponseEntity<Cliente> atualizar(@PathVariable Long id,@Valid @RequestBody Cliente cliente){

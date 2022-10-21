@@ -11,7 +11,7 @@ import org.springframework.web.client.RestTemplate;
 @Service
 public class EnderecoViaCepService {
 	
-	public Endereco buscarService(String cep, Integer numero) {
+	public Endereco buscarService(String cep, String numero) {
 		
 		try {
 			RestTemplate restTemplate = new RestTemplate();
@@ -24,7 +24,7 @@ public class EnderecoViaCepService {
 			String estado = enderecoViaCepSite.get().getUf();
 			
 			
-			Endereco endereco = new Endereco(cep, rua, bairro, cidade, numero, estado);
+			Endereco endereco = new Endereco(null, cep, rua, bairro, cidade, numero, cidade, estado);
 			
 			return endereco;
 				

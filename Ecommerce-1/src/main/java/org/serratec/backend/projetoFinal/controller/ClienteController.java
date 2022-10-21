@@ -2,7 +2,6 @@ package org.serratec.backend.projetoFinal.controller;
 
 import java.util.List;
 
-
 import javax.validation.Valid;
 
 import org.serratec.backend.projetoFinal.domain.Cliente;
@@ -23,68 +22,63 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/cliente")
+@RequestMapping("/api/cliente")
 public class ClienteController {
-	
-	
+
 	@Autowired
 	private ClienteService clienteService;
 
-	
 	@GetMapping("/todos")
-	public ResponseEntity<List<Cliente>> listar(){
+	public ResponseEntity<List<Cliente>> listar() {
 		List<Cliente> cliente = clienteService.listar();
 		return ResponseEntity.ok(cliente);
 	}
-	
+
 	@GetMapping("/dto")
-	public ResponseEntity<List<ClienteDto>> findAll(){
+	public ResponseEntity<List<ClienteDto>> findAll() {
 		List<ClienteDto> cliente = clienteService.findAll();
 		return ResponseEntity.ok(cliente);
-		
 	}
-	
 
-	
 	@GetMapping("/listar/{id}")
-	public ResponseEntity<Cliente> buscarCliente(@PathVariable Long id){
+	public ResponseEntity<Cliente> buscarCliente(@PathVariable Long id) {
 		Cliente cliente = clienteService.buscarCliente(id);
-		if(null != cliente) {
+		if (null != cliente) {
 			return ResponseEntity.ok(cliente);
 		}
-		
 		return ResponseEntity.notFound().build();
 	}
-	
-	
-	   @PostMapping("/cadastrar/dto")
-	    @ResponseStatus(HttpStatus.CREATED)
-	    public ResponseEntity<Cliente> inserir( @Valid @RequestBody ClienteInserirDto clienteInserirDto){
-	        Cliente cliente1 = clienteService.inserir(clienteInserirDto);
-	        return ResponseEntity.ok(cliente1);
-	    }
-	
-	@PutMapping("/atualizar/{id}")
-	public ResponseEntity<Cliente> atualizar(@PathVariable Long id,@Valid @RequestBody Cliente cliente){
-			Cliente cliente1 = clienteService.atualizar(id, cliente);
-			if( null != cliente1) {
-				
-				return ResponseEntity.ok(cliente1);
-			}
-			else {
-				return ResponseEntity.notFound().build();
-			}
-			
+
+	@PostMapping("/inserir")
+	@ResponseStatus(HttpStatus.CREATED)
+	public ResponseEntity<Cliente> inserir(@Valid @RequestBody ClienteInserirDto clienteInserirDto) {
+		Cliente cliente1 = clienteService.inserir(clienteInserirDto);
+//		return ResponseEntity.ok(cliente1);
+		if (null != cliente1) {
+			return ResponseEntity.ok(cliente1);
+//			return null;
 		}
-	
-	@DeleteMapping("/deletar/{id}")
-	public ResponseEntity<Void> delete(@PathVariable Long id){
-		boolean cliente1 = clienteService.delete(id);
-		
-		if(false == cliente1) {
+		return ResponseEntity.notFound().build();
+//		return null;
+	}
+
+	@PutMapping("/atualizar/{id}")
+	public ResponseEntity<Cliente> atualizar(@PathVariable Long id, @Valid @RequestBody Cliente cliente) {
+		Cliente cliente1 = clienteService.atualizar(id, cliente);
+		if (null != cliente1) {
+			return ResponseEntity.ok(cliente1);
+		} else {
 			return ResponseEntity.notFound().build();
 		}
-		
+	}
+
+	@DeleteMapping("/deletar/{id}")
+	public ResponseEntity<Void> delete(@PathVariable Long id) {
+		boolean cliente1 = clienteService.delete(id);
+
+		if (false == cliente1) {
+			return ResponseEntity.notFound().build();
+		}
 		return ResponseEntity.noContent().build();
 	}
 

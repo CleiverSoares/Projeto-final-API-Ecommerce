@@ -10,27 +10,28 @@ import org.springframework.web.client.RestTemplate;
 
 @Service
 public class EnderecoViaCepService {
-	
+
 	public Endereco buscarService(String cep, String numero) {
-		
+
 		try {
 			RestTemplate restTemplate = new RestTemplate();
 			String uri = "https://viacep.com.br/ws/" + cep + "/json/";
-			Optional<EnderecoViaCep> enderecoViaCepSite = Optional.ofNullable(restTemplate.getForObject(uri, EnderecoViaCep.class));
-			
+			Optional<EnderecoViaCep> enderecoViaCepSite = Optional
+					.ofNullable(restTemplate.getForObject(uri, EnderecoViaCep.class));
+
 			String rua = enderecoViaCepSite.get().getLogradouro();
 			String bairro = enderecoViaCepSite.get().getBairro();
 			String cidade = enderecoViaCepSite.get().getLocalidade();
 			String estado = enderecoViaCepSite.get().getUf();
-			
-			
-			Endereco endereco = new Endereco(null, cep, rua, bairro, cidade, numero, cidade, estado);
-			
+			String complemento = enderecoViaCepSite.get().getComplemento();
+
+			Endereco endereco = new Endereco(uri, rua, bairro, cidade, estado, complemento, cep);
+
 			return endereco;
-				
+
 		} catch (HttpClientErrorException e) {
 			return null;
 		}
-	}	
+	}
 
 }

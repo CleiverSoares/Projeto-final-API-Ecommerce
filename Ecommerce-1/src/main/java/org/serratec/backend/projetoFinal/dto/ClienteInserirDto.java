@@ -3,93 +3,85 @@ package org.serratec.backend.projetoFinal.dto;
 import java.time.LocalDate;
 
 public class ClienteInserirDto {
-    
 
+	private String nomeCompleto;
+	private String cpf;
+	private String telefone;
+	private LocalDate dataNascimento;
+	private String cep;
+	private String numero;
+	private String email;
 
-    private String nomeCompleto;
-    private String cpf;
-    private String telefone;
-    private LocalDate dataNascimento;
-    private String cep;
-    private String numero;
-    private String email;
-    
-    
-    
+	public ClienteInserirDto() {
+		super();
+	}
 
-    public ClienteInserirDto() {
-        super();
-    }
+	public ClienteInserirDto(String nomeCompleto, String cpf, String telefone, LocalDate dataNascimento,
+			String cep, String numero, String email) {
+		super();
+		this.nomeCompleto = nomeCompleto;
+		this.cpf = cpf;
+		this.telefone = telefone;
+		this.dataNascimento = dataNascimento;
+		this.cep = cep;
+		this.numero = numero;
+		this.email = email;
+	}
 
+	public String getEmail() {
+		return email;
+	}
 
+	public void setEmail(String email) {
+		this.email = email;
+	}
 
-    public ClienteInserirDto(Long id, String nomeCompleto, String cpf, String telefone, LocalDate dataNascimento,
-            String cep, String numero, String email) {
-        super();
-       
-        this.nomeCompleto = nomeCompleto;
-        this.cpf = cpf;
-        this.telefone = telefone;
-        this.dataNascimento = dataNascimento;
-        this.cep = cep;
-        this.numero = numero;
-        this.email = email;
-    }
+	public String getNomeCompleto() {
+		return nomeCompleto;
+	}
 
-    public String getEmail() {
-        return email;
-    }
+	public void setNomeCompleto(String nomeCompleto) {
+		this.nomeCompleto = nomeCompleto;
+	}
 
-    public void setEmail(String email) {
-        this.email = email;
-    }
+	public String getCpf() {
+		return cpf;
+	}
 
-    public String getNomeCompleto() {
-        return nomeCompleto;
-    }
+	public void setCpf(String cpf) {
+		this.cpf = cpf;
+	}
 
-    public void setNomeCompleto(String nomeCompleto) {
-        this.nomeCompleto = nomeCompleto;
-    }
+	public String getTelefone() {
+		return telefone;
+	}
 
-    public String getCpf() {
-        return cpf;
-    }
+	public void setTelefone(String telefone) {
+		this.telefone = telefone;
+	}
 
-    public void setCpf(String cpf) {
-        this.cpf = cpf;
-    }
+	public LocalDate getDataNascimento() {
+		return dataNascimento;
+	}
 
-    public String getTelefone() {
-        return telefone;
-    }
+	public void setDataNascimento(LocalDate dataNascimento) {
+		this.dataNascimento = dataNascimento;
+	}
 
-    public void setTelefone(String telefone) {
-        this.telefone = telefone;
-    }
+	public String getCep() {
+		return cep;
+	}
 
-    public LocalDate getDataNascimento() {
-        return dataNascimento;
-    }
+	public void setCep(String cep) {
+		this.cep = cep;
+	}
 
-    public void setDataNascimento(LocalDate dataNascimento) {
-        this.dataNascimento = dataNascimento;
-    }
+	public String getNumero() {
+		return numero;
+	}
 
-    public String getCep() {
-        return cep;
-    }
-
-    public void setCep(String cep) {
-        this.cep = cep;
-    }
-
-    public String getNumero() {
-        return numero;
-    }
-
-    public void setNumero(String numero) {
-        this.numero = numero;
-    }
+	public void setNumero(String numero) {
+		this.numero = numero;
+	}
 
 }

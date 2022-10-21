@@ -33,7 +33,6 @@ public class ClienteService {
 	public List<ClienteDto> findAll() {
 		List<Cliente> clientes = clienteRepository.findAll();
 		return ClienteDto.convert(clientes);
-
 	}
 
 	public Cliente buscarCliente(Long id) {
@@ -43,6 +42,14 @@ public class ClienteService {
 		}
 		return null;
 	}
+
+//	public ResponseEntity<Cliente> buscarCliente(Long id) {
+//		Optional<Cliente> cliente = clienteRepository.findById(id);
+//		if (cliente.isPresent()) {
+//			return ResponseEntity.ok().body(cliente.get());
+//		}
+//		return ResponseEntity.notFound().build();
+//	}
 
 	public Cliente inserir(@Valid ClienteInserirDto clienteInserirDto) {
 		Endereco endereco = enderecoViaCepService.buscarService(clienteInserirDto.getCep(),
@@ -56,7 +63,6 @@ public class ClienteService {
 	public Cliente atualizar(Long id, Cliente cliente) {
 		Optional<Cliente> cliente1 = clienteRepository.findById(id);
 		if (cliente1.isPresent()) {
-
 			if (null != cliente.getTelefone()) {
 				cliente1.get().setTelefone(cliente.getTelefone());
 			}
@@ -74,7 +80,6 @@ public class ClienteService {
 			}
 			if (null != cliente.getDataNascimento()) {
 				cliente1.get().setDataNascimento(cliente.getDataNascimento());
-
 			}
 		} else {
 			return null;
@@ -83,7 +88,6 @@ public class ClienteService {
 	}
 
 	public boolean delete(Long id) {
-
 		if (!clienteRepository.existsById(id)) {
 			return false;
 		}

@@ -11,29 +11,27 @@ import java.util.Optional;
 
 @Service
 public class CategoriaService {
-	
+
 	@Autowired
-    private CategoriaRepository repository;
+	private CategoriaRepository repository;
 
-    public Categoria salvarCategoria(Categoria categoria) {
-        return repository.save(categoria);
-    }
+	public List<Categoria> retornaTodasCategorias() {
+		List<Categoria> todasCategorias = repository.findAll();
+		return !todasCategorias.isEmpty() ? todasCategorias : Collections.emptyList();
+	}
 
-    public Optional<Categoria> encontrarCategoria(Long id) {
-        return repository.findById(id);
-    }
+	public Optional<Categoria> encontrarCategoria(Long id) {
+		return repository.findById(id);
+	}
 
-    public void deletarCategoria(Long id) {
-        Optional<Categoria> categoriaExistente = repository.findById(id);
-        if (categoriaExistente.isPresent())
-            repository.deleteById(id);
-    }
+	public Categoria salvarCategoria(Categoria categoria) {
+		return repository.save(categoria);
+	}
 
-    public List<Categoria> retornaTodasCategorias() {
-        List<Categoria> todasCategorias = repository.findAll();
-        return !todasCategorias.isEmpty() ? todasCategorias : Collections.emptyList();
-    }
-
-
+	public void deletarCategoria(Long id) {
+		Optional<Categoria> categoriaExistente = repository.findById(id);
+		if (categoriaExistente.isPresent())
+			repository.deleteById(id);
+	}
 
 }

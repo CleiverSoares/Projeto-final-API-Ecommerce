@@ -22,105 +22,86 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 
-	@RestController
-	@RequestMapping("/pedido")
-	public class PedidoController {
+@RestController
+@RequestMapping("/api/pedido")
+public class PedidoController {
 
-		@Autowired
-		private PedidoService pedidoService;
-		
-		@GetMapping("/todos")
-		public ResponseEntity<List<Pedido>> listarTodos() {
-			Optional<List<Pedido>> pedido = pedidoService.listarTodos();
-			
-			if(pedido.isPresent()) {
-				return ResponseEntity.ok(pedido.get());
-			}
-			
-			return ResponseEntity.notFound().build();
-		}
-		
-		@GetMapping("/listar/{id}")
+	@Autowired
+	private PedidoService pedidoService;
 
-		@ApiOperation(value = "Retorna um pedido especifico", notes = "Listagem de Pedidos")
-		@ApiResponses(value = {
-			@ApiResponse(code = 200, message = "Retorna um pedido"),
+	@GetMapping("/todos")
+	@ApiOperation(value = "Lista todos os pedidos", notes = "Listagem de Pedidos")
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Retorna todos os pedidos"),
 			@ApiResponse(code = 401, message = "Erro de autenticação"),
-			@ApiResponse(code = 403, message = "Você não tem permissão para acessar este recurso"),
-			@ApiResponse(code = 404, message = "Recurso não encotrado"),
-			@ApiResponse(code = 505, message = "Ocorreu uma exceção") })
-
-
-		public ResponseEntity<Pedido> listar(@PathVariable Long id) {
-			
-			Optional<Pedido> pedido = pedidoService.listar(id);
-			
-			if(pedido.isPresent()) {
-				return ResponseEntity.ok(pedido.get());
-			}
-			
-			return ResponseEntity.notFound().build();
-		}
-		@PostMapping("/cadastrar")
-		
-		@ApiOperation(value = "Salva um pedido")
-		@ApiResponses(value = {
-			@ApiResponse(code = 200, message = "Pedido Salvo"),
-			@ApiResponse(code = 401, message = "Erro de autenticação"),
-			@ApiResponse(code = 403, message = "Você não tem permissão para acessar este recurso"),
-			@ApiResponse(code = 404, message = "Recurso não encotrado"),
-			@ApiResponse(code = 505, message = "Ocorreu uma exceção") })
-
-		public ResponseEntity<Void> cadastrarPedido(@Valid @RequestBody Pedido pedido) {
-			
-			boolean foiCadastrado = pedidoService.cadastrarPedido(pedido);
-			if (foiCadastrado) {
-				return ResponseEntity.status(201).build();
-			}
-			else {
-				return ResponseEntity.internalServerError().build();
-			}
-		}
-		
-		
-		@PutMapping("/atualizar/{id}")
-
-		@ApiOperation(value = "Atualiza um pedido especifico")
-		@ApiResponses(value = {
-			@ApiResponse(code = 200, message = "Pedido atualizado"),
-			@ApiResponse(code = 401, message = "Erro de autenticação"),
-			@ApiResponse(code = 403, message = "Você não tem permissão para acessar este recurso"),
-			@ApiResponse(code = 404, message = "Recurso não encotrado"),
-			@ApiResponse(code = 505, message = "Ocorreu uma exceção") })
-
-		public ResponseEntity<Pedido> atualizar(@PathVariable Long id, @Valid @RequestBody Pedido dadosPedido) {
-			
-			Optional<Pedido> pedido = pedidoService.atualizar(id, dadosPedido);
-			
-			if (!pedido.isPresent()) {
-				return ResponseEntity.notFound().build();
-			}
+			@ApiResponse(code = 403, message = "Não há permissão para acessar o recurso"),
+			@ApiResponse(code = 404, message = "Recurso não encontrado"),
+			@ApiResponse(code = 505, message = "Exceção interna da aplicação"), })
+	public ResponseEntity<List<Pedido>> listarTodos() {
+		Optional<List<Pedido>> pedido = pedidoService.listarTodos();
+		if (pedido.isPresent()) {
 			return ResponseEntity.ok(pedido.get());
 		}
-		
-		@DeleteMapping("/deletar/{id}")
+		return ResponseEntity.notFound().build();
+	}
 
-		@ApiOperation(value = "Deleta um pedido especifico")
-		@ApiResponses(value = {
-			@ApiResponse(code = 200, message = "Pedido Deletado"),
+	@GetMapping("/listar/{id}")
+	@ApiOperation(value = "Retorna um pedido especifico", notes = "Listagem de Pedidos")
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Retorna um pedido"),
 			@ApiResponse(code = 401, message = "Erro de autenticação"),
 			@ApiResponse(code = 403, message = "Você não tem permissão para acessar este recurso"),
 			@ApiResponse(code = 404, message = "Recurso não encotrado"),
 			@ApiResponse(code = 505, message = "Ocorreu uma exceção") })
-
-		public ResponseEntity<Void> deletar(@PathVariable Long id) {
-			boolean foiDeletado = pedidoService.deletar(id);
-			
-			if (!foiDeletado) {
-				return ResponseEntity.notFound().build();
-			}
-			
-			return ResponseEntity.noContent().build();
+	public ResponseEntity<Pedido> listar(@PathVariable Long id) {
+		Optional<Pedido> pedido = pedidoService.listar(id);
+		if (pedido.isPresent()) {
+			return ResponseEntity.ok(pedido.get());
 		}
-
+		return ResponseEntity.notFound().build();
 	}
+
+	@PostMapping("/cadastrar")
+	@ApiOperation(value = "Salva um pedido")
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Pedido Salvo"),
+			@ApiResponse(code = 401, message = "Erro de autenticação"),
+			@ApiResponse(code = 403, message = "Você não tem permissão para acessar este recurso"),
+			@ApiResponse(code = 404, message = "Recurso não encotrado"),
+			@ApiResponse(code = 505, message = "Ocorreu uma exceção") })
+	public ResponseEntity<Void> cadastrarPedido(@Valid @RequestBody Pedido pedido) {
+		boolean foiCadastrado = pedidoService.cadastrarPedido(pedido);
+		if (foiCadastrado) {
+			return ResponseEntity.status(201).build();
+		}
+		return ResponseEntity.internalServerError().build();
+	}
+
+	@PutMapping("/atualizar/{id}")
+	@ApiOperation(value = "Atualiza um pedido especifico")
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Pedido atualizado"),
+			@ApiResponse(code = 401, message = "Erro de autenticação"),
+			@ApiResponse(code = 403, message = "Você não tem permissão para acessar este recurso"),
+			@ApiResponse(code = 404, message = "Recurso não encotrado"),
+			@ApiResponse(code = 505, message = "Ocorreu uma exceção") })
+	public ResponseEntity<Pedido> atualizar(@PathVariable Long id, @Valid @RequestBody Pedido dadosPedido) {
+		Optional<Pedido> pedido = pedidoService.atualizar(id, dadosPedido);
+		if (!pedido.isPresent()) {
+			return ResponseEntity.notFound().build();
+		}
+		return ResponseEntity.ok(pedido.get());
+	}
+
+	@DeleteMapping("/deletar/{id}")
+	@ApiOperation(value = "Deleta um pedido especifico")
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Pedido Deletado"),
+			@ApiResponse(code = 401, message = "Erro de autenticação"),
+			@ApiResponse(code = 403, message = "Você não tem permissão para acessar este recurso"),
+			@ApiResponse(code = 404, message = "Recurso não encotrado"),
+			@ApiResponse(code = 505, message = "Ocorreu uma exceção") })
+	public ResponseEntity<Void> deletar(@PathVariable Long id) {
+		boolean foiDeletado = pedidoService.deletar(id);
+		if (!foiDeletado) {
+			return ResponseEntity.notFound().build();
+		}
+		return ResponseEntity.noContent().build();
+	}
+
+}

@@ -7,10 +7,10 @@ import org.springframework.mail.javamail.JavaMailSender;
 
 @Configuration
 public class MailConfig {
-	
+
 	@Autowired
 	private JavaMailSender javaMailSender;
-	
+
 	public void sendEmail(String para, String assunto, String texto) {
 		SimpleMailMessage message = new SimpleMailMessage();
 		message.setFrom("fullstacksoares@gmail.com");

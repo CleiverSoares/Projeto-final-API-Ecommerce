@@ -32,12 +32,11 @@ public class SwaggerConfig {
     private ApiInfo apiInfo() {
         ApiInfo apiInfo = new ApiInfoBuilder()
                 .title("API Ecommerce SerraTec")
-                .description("API de site ecommerce do Grupo 03, Residência 2021.2, Serratec")
+                .description("API de site ecommerce do Grupo 03, Residência 2022.2, Serratec")
                 .termsOfServiceUrl("/service.html")
                 .version("0.0.0")
                 .contact(new Contact("Ecommerce", "www.serratec.org", "fullstacksoares@gmail.com"))
                 .build();
-
         return apiInfo;
     }
 

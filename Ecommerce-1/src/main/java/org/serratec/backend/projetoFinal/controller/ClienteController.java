@@ -5,7 +5,6 @@ import java.util.List;
 import javax.validation.Valid;
 
 import org.serratec.backend.projetoFinal.domain.Cliente;
-import org.serratec.backend.projetoFinal.dto.ClienteDto;
 import org.serratec.backend.projetoFinal.dto.ClienteInserirDto;
 import org.serratec.backend.projetoFinal.service.ClienteService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,11 +33,11 @@ public class ClienteController {
 		return ResponseEntity.ok(cliente);
 	}
 
-	@GetMapping("/dto")
-	public ResponseEntity<List<ClienteDto>> findAll() {
-		List<ClienteDto> cliente = clienteService.findAll();
-		return ResponseEntity.ok(cliente);
-	}
+//	@GetMapping("/dto")
+//	public ResponseEntity<List<ClienteDto>> findAll() {
+//		List<ClienteDto> cliente = clienteService.findAll();
+//		return ResponseEntity.ok(cliente);
+//	}
 
 	@GetMapping("/listar/{id}")
 	public ResponseEntity<Cliente> buscarCliente(@PathVariable Long id) {
@@ -71,7 +70,6 @@ public class ClienteController {
 	@DeleteMapping("/deletar/{id}")
 	public ResponseEntity<Void> delete(@PathVariable Long id) {
 		boolean cliente1 = clienteService.delete(id);
-
 		if (false == cliente1) {
 			return ResponseEntity.notFound().build();
 		}

@@ -1,12 +1,10 @@
 package org.serratec.backend.projetoFinal.dto;
 
-
 import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
 
 import org.serratec.backend.projetoFinal.domain.Cliente;
-
 
 public class ClienteDto {
 	private Long id;
@@ -15,38 +13,31 @@ public class ClienteDto {
 	private String telefone;
 	private LocalDate dataNascimento;
 	private Integer numero;
-	
-	
 
-
-	
 	public ClienteDto() {
-		
+
 	}
 
-	public ClienteDto(Long id,String nomeCompleto, String cpf, String telefone) {
+	public ClienteDto(Long id, String nomeCompleto, String cpf, String telefone) {
 		this.id = id;
 		this.nomeCompleto = nomeCompleto;
 		this.cpf = cpf;
 		this.telefone = telefone;
-		
+
 	}
-	
+
 	public ClienteDto(Cliente cliente) {
 		this.id = cliente.getId();
 		this.nomeCompleto = cliente.getNomeCompleto();
 		this.cpf = cliente.getCpf();
 		this.telefone = cliente.getTelefone();
-		
-		
+
 	}
-	
-	public static List<ClienteDto> convert(List<Cliente> clientes){
+
+	public static List<ClienteDto> convert(List<Cliente> clientes) {
 		return clientes.stream().map(ClienteDto::new).collect(Collectors.toList());
 	}
-	
-	
-	
+
 	public Long getId() {
 		return id;
 	}
@@ -58,38 +49,41 @@ public class ClienteDto {
 	public String getNomeCompleto() {
 		return nomeCompleto;
 	}
+
 	public void setNomeCompleto(String nomeCompleto) {
 		this.nomeCompleto = nomeCompleto;
 	}
+
 	public String getCpf() {
 		return cpf;
 	}
+
 	public void setCpf(String cpf) {
 		this.cpf = cpf;
 	}
+
 	public String getTelefone() {
 		return telefone;
 	}
+
 	public void setTelefone(String telefone) {
 		this.telefone = telefone;
 	}
 
-    public LocalDate getDataNascimento() {
-        return dataNascimento;
-    }
+	public LocalDate getDataNascimento() {
+		return dataNascimento;
+	}
 
-    public void setDataNascimento(LocalDate dataNascimento) {
-        this.dataNascimento = dataNascimento;
-    }
+	public void setDataNascimento(LocalDate dataNascimento) {
+		this.dataNascimento = dataNascimento;
+	}
 
-    public Integer getNumero() {
-        return numero;
-    }
+	public Integer getNumero() {
+		return numero;
+	}
 
-    public void setNumero(Integer numero) {
-        this.numero = numero;
-    }
-	
-	
+	public void setNumero(Integer numero) {
+		this.numero = numero;
+	}
 
 }

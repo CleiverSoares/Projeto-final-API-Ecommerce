@@ -26,9 +26,7 @@ public class EnderecoViaCepService {
 			String complemento = enderecoViaCepSite.get().getComplemento();
 
 			Endereco endereco = new Endereco(uri, rua, bairro, cidade, estado, complemento, cep);
-
 			return endereco;
-
 		} catch (HttpClientErrorException e) {
 			return null;
 		}

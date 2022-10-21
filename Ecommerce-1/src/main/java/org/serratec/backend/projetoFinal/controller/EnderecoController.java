@@ -21,88 +21,69 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/endereco")
+@RequestMapping("/api/endereco")
 public class EnderecoController {
-	
+
 	@Autowired
 	private EnderecoService enderecoService;
-	
+
 	@Autowired
 	private EnderecoViaCepService viaCepService;
-	
+
 	@GetMapping("/todos")
 	public ResponseEntity<List<Endereco>> listarTodos() {
-		
 		Optional<List<Endereco>> endereco = enderecoService.listarTodosService();
-		
-		if(endereco.isPresent()) {
+		if (endereco.isPresent()) {
 			return ResponseEntity.ok(endereco.get());
 		}
 		return ResponseEntity.notFound().build();
 	}
-	
-	
+
 	@GetMapping("/listar/{id}")
 	public ResponseEntity<Endereco> listar(@PathVariable Long id) {
-		
 		Optional<Endereco> endereco = enderecoService.listarService(id);
-		
-		if(endereco.isPresent()) {
+		if (endereco.isPresent()) {
 			return ResponseEntity.ok(endereco.get());
 		}
-		
 		return ResponseEntity.notFound().build();
 	}
-	
+
 	@PostMapping("/cadastrar")
 	public ResponseEntity<Void> cadastrarEndereco(@Valid @RequestBody Endereco endereco) {
-		
 		enderecoService.cadastrarService(endereco);
 		return ResponseEntity.status(201).build();
 	}
-	
-	@PostMapping("/cadastrarPorCep")
-	public ResponseEntity<Endereco> cadastrarEnderecoPorCep(@PathParam("cep") String cep, @PathParam("numero") String numero, @PathParam("complemento") String complemento) {
-		
-		Endereco enderecoViaCepSite = viaCepService.buscarService(cep, numero) ;
 
+	@PostMapping("/cadastrarPorCep")
+	public ResponseEntity<Endereco> cadastrarEnderecoPorCep(@PathParam("cep") String cep,
+			@PathParam("numero") String numero, @PathParam("complemento") String complemento) {
+		Endereco enderecoViaCepSite = viaCepService.buscarService(cep, numero);
 		if (enderecoViaCepSite != null) {
-		
-			
 			if (complemento != null) {
 				enderecoViaCepSite.setComplemento(complemento);
 			}
-			
 			enderecoService.cadastrarService(enderecoViaCepSite);
-			
 			return ResponseEntity.status(201).build();
 		} else {
 			return ResponseEntity.notFound().build();
 		}
 	}
-		
-	
+
 	@PutMapping("/atualizar/{id}")
 	public ResponseEntity<Endereco> atualizar(@PathVariable Long id, @Valid @RequestBody Endereco dadosEndereco) {
-		
 		Optional<Endereco> endereco = enderecoService.atualizarService(id, dadosEndereco);
-		
 		if (!endereco.isPresent()) {
 			return ResponseEntity.notFound().build();
 		}
-		
 		return ResponseEntity.ok(endereco.get());
-		
 	}
-	
+
 	@DeleteMapping("/deletar/{id}")
 	public ResponseEntity<Void> deletar(@PathVariable Long id) {
-		
 		boolean foiDeletada = enderecoService.deletar(id);
 		if (!foiDeletada) {
 			return ResponseEntity.notFound().build();
 		}
-	
 		return ResponseEntity.noContent().build();
 	}
 }

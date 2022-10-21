@@ -7,10 +7,12 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
 @Entity
+@Table(name = "endereco")
 public class Endereco {
 
 	@Id
@@ -52,7 +54,7 @@ public class Endereco {
 	@Column(name = "uf", length = 200, nullable = false)
 	private String uf;
 
-	public Endereco( @NotBlank(message = "Cep deve ser preenchido") String cep,
+	public Endereco(@NotBlank(message = "Cep deve ser preenchido") String cep,
 			@NotBlank(message = "Rua deve ser preenchido") @Size(max = 80, message = "Rua não deve passar de {max} caracteres") String rua,
 			@NotBlank(message = "Bairro deve ser preenchido") @Size(max = 50, message = "Bairro não deve passar de {max} caracteres") String bairro,
 			@NotBlank(message = "Cidade deve ser preenchido") @Size(max = 80, message = "Cidade não deve passar de {max} caracteres") String cidade,

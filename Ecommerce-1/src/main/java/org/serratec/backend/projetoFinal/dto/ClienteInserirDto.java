@@ -16,8 +16,8 @@ public class ClienteInserirDto {
 		super();
 	}
 
-	public ClienteInserirDto(String nomeCompleto, String cpf, String telefone, LocalDate dataNascimento,
-			String cep, String numero, String email) {
+	public ClienteInserirDto(String nomeCompleto, String cpf, String telefone, LocalDate dataNascimento, String cep,
+			String numero, String email) {
 		super();
 		this.nomeCompleto = nomeCompleto;
 		this.cpf = cpf;

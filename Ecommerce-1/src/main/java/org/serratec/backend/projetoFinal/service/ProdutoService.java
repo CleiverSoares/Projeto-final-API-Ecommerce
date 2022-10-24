@@ -84,8 +84,9 @@ public class ProdutoService {
 		Optional<Produto> produto = produtoRepository.findById(id);
 		return adicionarImagemUri(produto.get());
 	}
-
+	
 	public ProdutoInserirDto inserir(Produto produto, MultipartFile file) throws IOException {
+		System.out.println("opa");
 		produto = produtoRepository.save(produto);
 		fotoService.inserir(produto, file);
 		return adicionarImagemUri(produto);

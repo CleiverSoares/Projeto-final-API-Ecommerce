@@ -12,13 +12,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 
 import org.hibernate.annotations.Type;
-
-import com.fasterxml.jackson.annotation.JsonFormat;
 
 @Entity
 public class Produto {
@@ -28,36 +23,55 @@ public class Produto {
 	@Column(name = "id_produto")
 	private Long id;
 
-	@Size(min = 3, max = 30, message = "Nome do produto deve ser entre {min} e {max} caracteres")
-	@NotBlank(message = "Preencha o nome")
+//	@Size(min = 3, max = 30, message = "Nome do produto deve ser entre {min} e {max} caracteres")
+//	@NotBlank(message = "Preencha o nome")
 	@Column(nullable = false, length = 30, unique = true)
 	private String nome;
 
-	@Size(min = 3, max = 200, message = "Descriçao deve ser entre {min} e {max} caracteres")
+//	@Size(min = 3, max = 200, message = "Descriçao deve ser entre {min} e {max} caracteres")
 	@Column(nullable = true, length = 200)
 	private String descricao;
 
-	@NotNull(message = "Quantidade de estoque deve ser preenchido")
+//	@NotNull(message = "Quantidade de estoque deve ser preenchido")
 	@Column(nullable = false, name = "qtd_estoque")
 	private Integer qtdEstoque;
 
 //	@NotBlank(message = "Data de cadastro deve ser preenchido")
-	@JsonFormat(pattern = "dd/MM/yyyy")
+//	@JsonFormat(pattern = "dd/MM/yyyy")
 	@Column(nullable = false, name = "data_cadastro ")
 	private LocalDate dataCadastro;
 
-	@NotNull(message = "Valor unitário deve ser preenchido")
+//	@NotNull(message = "Valor unitário deve ser preenchido")
 	@Column(nullable = false, name = "valor_unitario")
 	private Double valorUnitario;
 
 	@Lob
 	@Type(type = "org.hibernate.type.BinaryType")
 	@Column(nullable = false)
-	private Byte[] imagem;
+	private byte[] imagem;
 
-	@ManyToOne(cascade = CascadeType.ALL)
+	@Column(length = 80, name = "tipo_imagem")
+	private String tipoImagem;
+
+//	@ManyToOne(cascade = CascadeType.All)
+	@ManyToOne(cascade = CascadeType.REFRESH)
 	@JoinColumn(name = "id_categoria", nullable = false)
 	private Categoria categoria;
+
+//	public Produto(ProdutoInserirDto produtoInserirDto, Long id) {
+//		super();
+//		this.id = id;
+//		this.nome = produtoInserirDto.getNome();
+//		this.descricao = produtoInserirDto.getDescricao();
+//		this.qtdEstoque = produtoInserirDto.getQtdEstoque();
+//		this.dataCadastro = LocalDate.now();
+//		this.valorUnitario = produtoInserirDto.getValorUnitario();
+//		this.categoria = produtoInserirDto.getCategoria();
+//	}
+
+	public Produto() {
+
+	}
 
 	public Long getId() {
 		return id;
@@ -65,6 +79,14 @@ public class Produto {
 
 	public void setId(Long id) {
 		this.id = id;
+	}
+
+	public String getTipoImagem() {
+		return tipoImagem;
+	}
+
+	public void setTipoImagem(String tipoImagem) {
+		this.tipoImagem = tipoImagem;
 	}
 
 	public String getNome() {
@@ -107,11 +129,11 @@ public class Produto {
 		this.valorUnitario = valorUnitario;
 	}
 
-	public Byte[] getImagem() {
+	public byte[] getImagem() {
 		return imagem;
 	}
 
-	public void setImagem(Byte[] imagem) {
+	public void setImagem(byte[] imagem) {
 		this.imagem = imagem;
 	}
 

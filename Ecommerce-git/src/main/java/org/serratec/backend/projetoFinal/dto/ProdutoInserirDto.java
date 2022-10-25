@@ -14,6 +14,8 @@ public class ProdutoInserirDto {
 	@Size(max = 30, message = "Tamanho máximo do nome deve ser de {max} caracteres.")
 	private String nome;
 
+	private String url;
+
 	@NotBlank(message = "Prencher a descrição.")
 	@Size(max = 200, message = "Tamanho máximo da descrição deve ser de {max} caracteres.")
 	private String descricao;
@@ -29,31 +31,31 @@ public class ProdutoInserirDto {
 
 	public ProdutoInserirDto(
 			@NotBlank(message = "Prencher o nome completo") @Size(max = 30, message = "Tamanho máximo do nome deve ser de {max} caracteres.") String nome,
+			String url,
 			@NotBlank(message = "Prencher a descrição.") @Size(max = 200, message = "Tamanho máximo da descrição deve ser de {max} caracteres.") String descricao,
 			@NotNull(message = "Preencher a quantidade em estoque.") Integer qtdEstoque,
 			@NotNull(message = "Preencher a quantidade em estoque.") Double valorUnitario,
 			@NotNull(message = "Preencher a categoria.") Categoria categoria) {
 		super();
 		this.nome = nome;
+		this.url = url;
 		this.descricao = descricao;
 		this.qtdEstoque = qtdEstoque;
 		this.valorUnitario = valorUnitario;
 		this.categoria = categoria;
 	}
 
-//	public ProdutoInserirDto(
-//			@NotBlank(message = "Prencher o nome completo") @Size(max = 30, message = "Tamanho máximo do nome deve ser de {max} caracteres.") String nome,
-//			@NotBlank(message = "Prencher a descrição.") @Size(max = 200, message = "Tamanho máximo da descrição deve ser de {max} caracteres.") String descricao,
-//			@NotNull(message = "Preencher a quantidade em estoque.") Integer qtdEstoque,
-//			@NotNull(message = "Preencher a quantidade em estoque.") Double valorUnitario,
-//			@NotNull(message = "Preencher a categoria.") Categoria categoria, Produto produto) {
-//		super();
-//		this.nome = produto.getNome();
-//		this.descricao = produto.getDescricao();
-//		this.qtdEstoque = produto.getQtdEstoque();
-//		this.valorUnitario = produto.getValorUnitario();
-//		this.categoria = produto.getCategoria();
-//	}
+	public ProdutoInserirDto() {
+
+	}
+
+	public String getUrl() {
+		return url;
+	}
+
+	public void setUrl(String url) {
+		this.url = url;
+	}
 
 	public String getNome() {
 		return nome;

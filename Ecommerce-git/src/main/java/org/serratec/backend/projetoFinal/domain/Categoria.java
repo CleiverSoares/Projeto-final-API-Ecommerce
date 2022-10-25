@@ -8,10 +8,9 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-
-import org.serratec.backend.projetoFinal.enums.NomeCategoria;
 
 @Entity
 @Table(name = "categoria")
@@ -22,12 +21,11 @@ public class Categoria {
 	@Column(name = "id_categoria")
 	private Long id;
 
-//	@NotBlank(message = "Preencha o nome")
-//	@Size(min = 3, max = 30, message = "Nome da categoria deve ser entre {min} e {max} caracteres")
+	@NotBlank(message = "Preencha o nome")
+	@Size(min = 3, max = 30, message = "Nome da categoria deve ser entre {min} e {max} caracteres")
 	@Column(nullable = false, length = 30, unique = true, name = "nome")
 	@NotNull(message = "Nome categoria deve ser selecionado")
-//	@Enumerated(EnumType.STRING)
-	private NomeCategoria nomeCategoria;
+	private String nomeCategoria;
 
 	@Size(min = 3, max = 200, message = "Descrição deve ser entre {min} e {max} caracteres")
 	@Column(length = 200)
@@ -37,11 +35,11 @@ public class Categoria {
 		return id;
 	}
 
-	public NomeCategoria getNomeCategoria() {
+	public String getNomeCategoria() {
 		return nomeCategoria;
 	}
 
-	public void setNomeCategoria(NomeCategoria nomeCategoria) {
+	public void setNomeCategoria(String nomeCategoria) {
 		this.nomeCategoria = nomeCategoria;
 	}
 

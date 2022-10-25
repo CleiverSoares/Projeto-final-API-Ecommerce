@@ -7,6 +7,7 @@ import java.util.stream.Collectors;
 import org.serratec.backend.projetoFinal.domain.Cliente;
 
 public class ClienteDto {
+
 	private Long id;
 	private String nomeCompleto;
 	private String cpf;
@@ -37,11 +38,6 @@ public class ClienteDto {
 	public static List<ClienteDto> convert(List<Cliente> clientes) {
 		return clientes.stream().map(ClienteDto::new).collect(Collectors.toList());
 	}
-
-	
-	
-	
-
 
 	public Long getId() {
 		return id;

@@ -12,7 +12,6 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
-
 @Entity
 @Table(name = "item_pedido", schema = "public")
 public class ItemPedido {
@@ -46,7 +45,7 @@ public class ItemPedido {
 	@JoinColumn(name = "id_pedido")
 	private Pedido pedido;
 
-	@ManyToOne (cascade = CascadeType.ALL)
+	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "id_produto")
 	private Produto produto;
 

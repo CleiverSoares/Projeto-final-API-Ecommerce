@@ -1,7 +1,9 @@
 package org.serratec.backend.projetoFinal.domain;
 
 import java.time.LocalDate;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -23,7 +25,6 @@ public class Pedido {
 	@Column(name = "id_pedido")
 	private Long id;
 
-	@NotBlank(message = "Digete a data do pedido.")
 	@Column(name = "data_pedido", nullable = false)
 	private LocalDate dataPedido;
 
@@ -44,6 +45,17 @@ public class Pedido {
 	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "id_cliente")
 	private Cliente cliente;
+
+	@OneToMany(mappedBy = "pedido")
+	private Set<ItemPedido> items = new HashSet<>();
+
+	public Double getValorTotal() {
+		Double soma = 0.0;
+		for (ItemPedido item : items) {
+			soma += item.getPrecoVenda();
+		}
+		return soma;
+	}
 
 	@OneToMany(cascade = CascadeType.ALL)
 	@JoinColumn(name = "item_pedido")
@@ -80,6 +92,14 @@ public class Pedido {
 		return dataPedido;
 	}
 
+	public Set<ItemPedido> getItems() {
+		return items;
+	}
+
+	public void setItems(Set<ItemPedido> items) {
+		this.items = items;
+	}
+
 	public void setDataPedido(LocalDate dataPedido) {
 		this.dataPedido = dataPedido;
 	}
@@ -106,10 +126,6 @@ public class Pedido {
 
 	public void setStatus(String status) {
 		this.status = status;
-	}
-
-	public Double getValorTotal() {
-		return valorTotal;
 	}
 
 	public void setValorTotal(Double valorTotal) {

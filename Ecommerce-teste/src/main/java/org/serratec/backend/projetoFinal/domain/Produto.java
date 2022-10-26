@@ -12,11 +12,13 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
+import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 import org.hibernate.annotations.Type;
+import org.serratec.backend.projetoFinal.dto.ProdutoInserirDTO;
 
 @Entity
 public class Produto {
@@ -71,8 +73,18 @@ public class Produto {
 //		this.categoria = produtoInserirDto.getCategoria();
 //	}
 
-	public Produto() {
+	public Produto(@Valid ProdutoInserirDTO produtoInserirDTO) {
+		super();
+		this.nome = produtoInserirDTO.getNome();
+		this.descricao = produtoInserirDTO.getDescricao();
+		this.qtdEstoque = produtoInserirDTO.getQtdEstoque();
+		this.dataCadastro = LocalDate.now();
+		this.valorUnitario = produtoInserirDTO.getValorUnitario();
+		this.categoria = produtoInserirDTO.getCategoria();
+	}
 
+	public Produto() {
+		super();
 	}
 
 	public Long getId() {

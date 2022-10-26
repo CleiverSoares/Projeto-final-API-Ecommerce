@@ -59,7 +59,7 @@ public class ProdutoController {
 	}
 
 	@PostMapping(consumes = { MediaType.MULTIPART_FORM_DATA_VALUE })
-	public ProdutoInserirDTO inserir(@Valid @RequestPart Produto produto, @RequestPart MultipartFile file)
+	public ProdutoDTO inserir(@Valid @RequestPart ProdutoInserirDTO produto, @RequestPart MultipartFile file)
 			throws IOException {
 		return produtoService.inserir(produto, file);
 	}

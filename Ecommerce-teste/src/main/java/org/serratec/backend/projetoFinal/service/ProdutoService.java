@@ -66,29 +66,29 @@ public class ProdutoService {
 		if (!produto.isPresent()) {
 			throw new ProdutoException("O produto não foi atualizado.");
 		}
-		Produto produtoDb = new Produto();
-		produtoDb.setId(id);
+		Produto produtoDb = produto.get();
 		produtoDb.setNome(produtoInserirDto.getNome());
 		produtoDb.setDescricao(produtoInserirDto.getDescricao());
 		produtoDb.setQtdEstoque(produtoInserirDto.getQtdEstoque());
-		produtoDb.setDataCadastro(produto.get().getDataCadastro());
 		produtoDb.setValorUnitario(produtoInserirDto.getValorUnitario());
 		produtoDb.setCategoria(produtoInserirDto.getCategoria());
 		produtoRepository.save(produtoDb);
 		return "O produto com o id " + produtoDb.getId() + " foi atualizado!";
 	}
 
-	public ProdutoInserirDTO adicionarImagemUri(@Valid Produto produto) {
+	public ProdutoDTO adicionarImagemUri(@Valid Produto produto) {
 		URI uri = ServletUriComponentsBuilder.fromCurrentContextPath().path("/produto/{id}/foto")
 				.buildAndExpand(produto.getId()).toUri();
-		ProdutoInserirDTO produtoInserirDTO = new ProdutoInserirDTO();
-		produtoInserirDTO.setNome(produto.getNome());
-		produtoInserirDTO.setUrl(uri.toString());
-		produtoInserirDTO.setValorUnitario(produto.getValorUnitario());
-		produtoInserirDTO.setDescricao(produto.getDescricao());
-		produtoInserirDTO.setQtdEstoque(produto.getQtdEstoque());
-		produtoInserirDTO.setCategoria(produto.getCategoria());
-		return produtoInserirDTO;
+		ProdutoDTO produtoDTO = new ProdutoDTO();
+		produtoDTO.setNome(produto.getNome());
+		produtoDTO.setUrl(uri.toString());
+		produtoDTO.setValorUnitario(produto.getValorUnitario());
+		produtoDTO.setDescricao(produto.getDescricao());
+		produtoDTO.setQtdEstoque(produto.getQtdEstoque());
+		produtoDTO.setCategoria(produto.getCategoria());
+		produtoDTO.setId(produto.getId());
+		produtoDTO.setDataCadastro(produto.getDataCadastro());
+		return produtoDTO;
 	}
 
 	public Produto buscarEntidade(Long id) {
@@ -96,7 +96,8 @@ public class ProdutoService {
 	}
 
 	@Transactional
-	public ProdutoInserirDTO inserir(@Valid Produto produto, MultipartFile file) throws IOException {
+	public ProdutoDTO inserir(@Valid ProdutoInserirDTO produtoInserirDTO, MultipartFile file) throws IOException {
+		Produto produto = new Produto(produtoInserirDTO);
 		produto.setTipoImagem(file.getContentType());
 		produto.setImagem(file.getBytes());
 		produto.setDataCadastro(LocalDate.now());

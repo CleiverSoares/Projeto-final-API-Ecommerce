@@ -19,6 +19,9 @@ public class PedidoService {
 	@Autowired
 	private PedidoRepository pedidoRepository;
 
+	@Autowired
+	private ProdutoService produtoService;
+
 	public List<PedidoDTO> retornaTodasPedidos() {
 		List<Pedido> listaPedido = pedidoRepository.findAll();
 		List<PedidoDTO> listaPedidoDTO = new ArrayList<>();
@@ -37,7 +40,6 @@ public class PedidoService {
 		pedidoDTO.setStatus(pedido.getStatus());
 		pedidoDTO.setCliente(pedido.getCliente());
 		pedidoDTO.setDataPedido(LocalDate.now());
-
 		List<ItemPedidoDTO> itemPedidoDTOs = new ArrayList<>();
 		for (ItemPedido itemPedido : pedido.getItemPedido()) {
 			ItemPedidoDTO itemPedidoDTO = new ItemPedidoDTO();
@@ -47,41 +49,12 @@ public class PedidoService {
 			itemPedidoDTO.setQuantidade(itemPedido.getQuantidade());
 			itemPedidoDTO.setValorBruto(itemPedido.getValorBruto());
 			itemPedidoDTO.setValorLiquido(itemPedido.getValorLiquido());
-//			itemPedidoDTO.setProdutoDTO(itemPedido.getProduto());
+			itemPedidoDTO.setProdutoDTO(produtoService.adicionarImagemUri(itemPedido.getProduto()));
 			itemPedidoDTOs.add(itemPedidoDTO);
-
-//			ProdutoDTO produtoDTOs = new ProdutoDTO();
-//			for (Produto itemPedidoDTO2 : ) {
-//				ProdutoDTO produtoDTO = new ProdutoDTO();
-//				itemPedidoDTO2.setCategoria(null);
-//			}
 		}
 		pedidoDTO.setItemPedidoDTO(itemPedidoDTOs);
 		return pedidoDTO;
 	}
-//	public PedidoDTO transformarEntityEmDto(Pedido pedido, PedidoDTO pedidoDTO) {
-//		pedidoDTO.setId(pedido.getId());
-//		pedidoDTO.setDataEntrega(pedido.getDataEntrega());
-//		pedidoDTO.setDataEnvio(pedido.getDataEnvio());
-//		pedidoDTO.setStatus(pedido.getStatus());
-//		pedidoDTO.setCliente(pedido.getCliente());
-//		pedidoDTO.setDataPedido(LocalDate.now());
-//		
-//		List<ItemPedidoDTO> itemPedidoDTOs = new ArrayList<>();
-//		for (ItemPedido itemPedido : pedido.getItemPedido()) {
-//			ItemPedidoDTO itemPedidoDTO = new ItemPedidoDTO();
-//			itemPedidoDTO.setId(itemPedido.getId());
-//			itemPedidoDTO.setPercentualDesconto(itemPedido.getPercentualDesconto());
-//			itemPedidoDTO.setPrecoVenda(itemPedido.getPrecoVenda());
-//			itemPedidoDTO.setQuantidade(itemPedido.getQuantidade());
-//			itemPedidoDTO.setValorBruto(itemPedido.getValorBruto());
-//			itemPedidoDTO.setValorLiquido(itemPedido.getValorLiquido());
-//			itemPedidoDTO.setProdutoDTO(itemPedido.getProduto());
-//			itemPedidoDTOs.add(itemPedidoDTO);
-//		}
-//		pedidoDTO.setItemPedidoDTO(itemPedidoDTOs);
-//		return pedidoDTO;
-//	}
 
 	public Optional<Pedido> encontrarPedido(Long id) {
 		return pedidoRepository.findById(id);

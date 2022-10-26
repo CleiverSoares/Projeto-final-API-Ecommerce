@@ -9,6 +9,7 @@ public class ProdutoDTO {
 
 	private Long id;
 	private String nome;
+	private String url;
 	private String descricao;
 	private Integer qtdEstoque;
 	private LocalDate dataCadastro;
@@ -84,6 +85,14 @@ public class ProdutoDTO {
 
 	public void setCategoria(Categoria categoria) {
 		this.categoria = categoria;
+	}
+
+	public String getUrl() {
+		return url;
+	}
+
+	public void setUrl(String url) {
+		this.url = url;
 	}
 
 }

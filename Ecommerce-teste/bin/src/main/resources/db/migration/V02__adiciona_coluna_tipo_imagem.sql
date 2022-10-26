@@ -1,0 +1,1 @@
+ALTER TABLE produto ADD tipo_imagem varchar(80);

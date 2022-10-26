@@ -40,11 +40,11 @@ public class Pedido {
 	@Column(name = "valor_total")
 	private Double valorTotal;
 
-	@ManyToOne(cascade = CascadeType.ALL)
+	@ManyToOne
 	@JoinColumn(name = "id_cliente")
 	private Cliente cliente;
 
-	@OneToMany(mappedBy = "pedido")
+	@OneToMany(mappedBy = "pedido", cascade = CascadeType.ALL)
 	private List<ItemPedido> itemPedido;
 
 	public Long getId() {

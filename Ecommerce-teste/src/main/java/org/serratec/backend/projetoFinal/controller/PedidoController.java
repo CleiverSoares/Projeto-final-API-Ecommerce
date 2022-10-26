@@ -7,6 +7,7 @@ import javax.validation.Valid;
 
 import org.serratec.backend.projetoFinal.domain.Pedido;
 import org.serratec.backend.projetoFinal.dto.PedidoDTO;
+import org.serratec.backend.projetoFinal.dto.PedidoInserirDTO;
 import org.serratec.backend.projetoFinal.service.PedidoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -46,7 +47,7 @@ public class PedidoController {
 	}
 
 	@PostMapping
-	public ResponseEntity<Pedido> salvar(@Valid @RequestBody Pedido pedido) {
+	public ResponseEntity<Pedido> salvar(@Valid @RequestBody PedidoInserirDTO pedido) {
 		Pedido pedidoSalva = service.salvarPedido(pedido);
 		return new ResponseEntity<>(pedidoSalva, HttpStatus.CREATED);
 	}

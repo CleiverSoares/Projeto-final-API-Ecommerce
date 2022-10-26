@@ -5,11 +5,17 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import javax.validation.Valid;
+
 import org.serratec.backend.projetoFinal.domain.ItemPedido;
 import org.serratec.backend.projetoFinal.domain.Pedido;
 import org.serratec.backend.projetoFinal.dto.ItemPedidoDTO;
 import org.serratec.backend.projetoFinal.dto.PedidoDTO;
+import org.serratec.backend.projetoFinal.dto.PedidoInserirDTO;
+import org.serratec.backend.projetoFinal.dto.PedidoItemInserirDTO;
+import org.serratec.backend.projetoFinal.repository.ClienteRepository;
 import org.serratec.backend.projetoFinal.repository.PedidoRepository;
+import org.serratec.backend.projetoFinal.repository.ProdutoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,7 +26,13 @@ public class PedidoService {
 	private PedidoRepository pedidoRepository;
 
 	@Autowired
+	private ClienteRepository clienteRepository;
+
+	@Autowired
 	private ProdutoService produtoService;
+
+	@Autowired
+	private ProdutoRepository produtoRepository;
 
 	public List<PedidoDTO> retornaTodasPedidos() {
 		List<Pedido> listaPedido = pedidoRepository.findAll();
@@ -38,7 +50,7 @@ public class PedidoService {
 		pedidoDTO.setDataEntrega(pedido.getDataEntrega());
 		pedidoDTO.setDataEnvio(pedido.getDataEnvio());
 		pedidoDTO.setStatus(pedido.getStatus());
-		pedidoDTO.setCliente(pedido.getCliente());
+		pedidoDTO.setCliente(clienteRepository.findById(pedido.getCliente().getId()).get());
 		pedidoDTO.setDataPedido(LocalDate.now());
 		List<ItemPedidoDTO> itemPedidoDTOs = new ArrayList<>();
 		for (ItemPedido itemPedido : pedido.getItemPedido()) {
@@ -60,7 +72,41 @@ public class PedidoService {
 		return pedidoRepository.findById(id);
 	}
 
-	public Pedido salvarPedido(Pedido pedido) {
+	public Pedido salvarPedido(PedidoInserirDTO pedidoInserirDTO) {
+		Pedido pedido = new Pedido();
+		pedido.setDataEntrega(pedidoInserirDTO.getDataEntrega());
+		pedido.setDataEnvio(pedidoInserirDTO.getDataEnvio());
+		pedido.setDataPedido(pedidoInserirDTO.getDataPedido());
+		pedido.setCliente(pedidoInserirDTO.getCliente());
+		pedido.setStatus(pedidoInserirDTO.getStatus());
+
+		Double total = 0.0;
+		
+		List<ItemPedido> itemPedidos = new ArrayList<>();
+		for (PedidoItemInserirDTO pedidoItemInserirDTO : pedidoInserirDTO.getPedidoItemInserirDTO()) {
+			ItemPedido itemPedido = new ItemPedido();
+			itemPedido.setPedido(pedido);
+			itemPedido.setPercentualDesconto(pedidoItemInserirDTO.getPercentualDesconto());
+			itemPedido.setProduto(produtoRepository.findById(pedidoItemInserirDTO.getProduto().getId()).get());
+			
+			Double valorDeVenda = itemPedido.getProduto().getValorUnitario();
+			Double valorBruto = valorDeVenda * pedidoItemInserirDTO.getQuantidade();
+			Double valorLiquido = valorBruto - valorBruto * pedidoItemInserirDTO.getPercentualDesconto();
+
+			total += valorLiquido;
+					
+			itemPedido.setQuantidade(pedidoItemInserirDTO.getQuantidade());
+			itemPedido.setValorBruto(valorBruto);
+			itemPedido.setValorLiquido(valorLiquido);
+			itemPedido.setPrecoVenda(total);
+
+			itemPedidos.add(itemPedido);
+
+		}
+
+ 	    pedido.setValorTotal(total);
+		pedido.setItemPedido(itemPedidos);
+		
 		return pedidoRepository.save(pedido);
 	}
 
@@ -68,6 +114,11 @@ public class PedidoService {
 		Optional<Pedido> pedidoExistente = pedidoRepository.findById(id);
 		if (pedidoExistente.isPresent())
 			pedidoRepository.deleteById(id);
+	}
+
+	public void salvarPedido(@Valid Pedido pedido) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

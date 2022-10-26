@@ -12,6 +12,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 
 import org.serratec.backend.projetoFinal.dto.ClienteInserirDTO;
 
@@ -24,8 +26,8 @@ public class Cliente {
 	@Column(name = "id_cliente")
 	private Long id;
 
-//	@NotBlank(message = "Prencher o nome completo")
-//	@Size(max = 60, message = "Tamanho maximo do nome deve ser de {max}.")
+	@NotBlank(message = "Prencher o nome completo")
+	@Size(max = 60, message = "Tamanho maximo do nome deve ser de {max}.")
 	@Column(nullable = false, length = 60, name = "nome_completo")
 	private String nomeCompleto;
 

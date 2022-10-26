@@ -11,6 +11,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Table(name = "item_pedido")
 public class ItemPedido {
@@ -40,6 +42,7 @@ public class ItemPedido {
 	@Column(name = "valor_liquido", nullable = false)
 	private Double valorLiquido;
 
+	@JsonIgnore
 	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "id_pedido")
 	private Pedido pedido;

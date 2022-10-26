@@ -15,6 +15,7 @@ public class ClienteDTO {
 	private LocalDate dataNascimento;
 	private Integer numero;
 
+	
 	public ClienteDTO() {
 
 	}

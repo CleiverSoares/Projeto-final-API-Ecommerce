@@ -35,6 +35,14 @@ public class PedidoDTO {
 		this.cliente = pedido.getCliente();
 		this.itemPedido = itemPedido;
 	}
+	
+	
+
+	public PedidoDTO() {
+		super();
+	}
+
+
 
 	public PedidoDTO(Pedido pedido) {
 		super();

@@ -18,6 +18,7 @@ public class ItemPedidoDTO {
 
 	private ProdutoDTO produtoDTO;
 
+
 	public ItemPedidoDTO(ItemPedido ItemPedido, ProdutoDTO produtoDTO) {
 		super();
 		this.id = ItemPedido.getId();

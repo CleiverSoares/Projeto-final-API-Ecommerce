@@ -7,12 +7,17 @@ import java.util.Optional;
 
 import javax.validation.Valid;
 
+import org.serratec.backend.projetoFinal.domain.Cliente;
 import org.serratec.backend.projetoFinal.domain.ItemPedido;
 import org.serratec.backend.projetoFinal.domain.Pedido;
 import org.serratec.backend.projetoFinal.dto.ItemPedidoDTO;
 import org.serratec.backend.projetoFinal.dto.PedidoDTO;
 import org.serratec.backend.projetoFinal.dto.PedidoInserirDTO;
 import org.serratec.backend.projetoFinal.dto.PedidoItemInserirDTO;
+import org.serratec.backend.projetoFinal.dto.RelatorioDTO;
+import org.serratec.backend.projetoFinal.exception.EmailException;
+import org.serratec.backend.projetoFinal.exception.PedidoException;
+import org.serratec.backend.projetoFinal.mail.MailConfig;
 import org.serratec.backend.projetoFinal.repository.ClienteRepository;
 import org.serratec.backend.projetoFinal.repository.PedidoRepository;
 import org.serratec.backend.projetoFinal.repository.ProdutoRepository;
@@ -34,6 +39,12 @@ public class PedidoService {
 	@Autowired
 	private ProdutoRepository produtoRepository;
 
+	@Autowired
+	private MailConfig mailConfig;
+	
+	
+	
+	
 	public List<PedidoDTO> retornaTodasPedidos() {
 		List<Pedido> listaPedido = pedidoRepository.findAll();
 		List<PedidoDTO> listaPedidoDTO = new ArrayList<>();
@@ -71,8 +82,20 @@ public class PedidoService {
 	public Optional<Pedido> encontrarPedido(Long id) {
 		return pedidoRepository.findById(id);
 	}
+	
+	public PedidoDTO encontrarPedidoDTO(Long id) throws PedidoException {
+        Optional<Pedido> pedido = pedidoRepository.findById(id);
+        Pedido pedidoNoBanco = new Pedido();
+        PedidoDTO pedidoDTO = new PedidoDTO();
+        if (pedido.isPresent()) {
+            pedidoNoBanco = pedido.get();
+            transformarEntityEmDto(pedidoNoBanco, pedidoDTO);
+            return pedidoDTO;
+        }
+        throw new PedidoException("O id informado não foi encontrado!");
+    }
 
-	public Pedido salvarPedido(PedidoInserirDTO pedidoInserirDTO) {
+	public Pedido salvarPedido(PedidoInserirDTO pedidoInserirDTO) throws EmailException {
 		Pedido pedido = new Pedido();
 		pedido.setDataEntrega(pedidoInserirDTO.getDataEntrega());
 		pedido.setDataEnvio(pedidoInserirDTO.getDataEnvio());
@@ -107,8 +130,28 @@ public class PedidoService {
  	    pedido.setValorTotal(total);
 		pedido.setItemPedido(itemPedidos);
 		
-		return pedidoRepository.save(pedido);
+		Pedido pedidoSalvo = pedidoRepository.save(pedido);
+		pedidoSalvo.setValorTotal(total);
+		Cliente cliente = clienteRepository.findById(pedidoSalvo.getCliente().getId()).get();
+		pedidoSalvo.setCliente(cliente);
+		RelatorioDTO relatorioDTO = new RelatorioDTO(pedidoSalvo);
+		
+		
+		
+		try {
+			mailConfig.sendEmail(relatorioDTO);
+			
+		} catch (Exception e) {
+			throw new  EmailException("Houve um erro no envio do email.");
+		}
+		
+	 
+				
+		return pedidoSalvo;
 	}
+	
+	
+
 
 	public void deletarPedido(Long id) {
 		Optional<Pedido> pedidoExistente = pedidoRepository.findById(id);

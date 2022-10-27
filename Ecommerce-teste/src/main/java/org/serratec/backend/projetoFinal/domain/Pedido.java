@@ -41,11 +41,31 @@ public class Pedido {
 	private Double valorTotal;
 
 	@ManyToOne
-	@JoinColumn(name = "id_cliente")
+	@JoinColumn(name = "id_cliente" )
 	private Cliente cliente;
 
 	@OneToMany(mappedBy = "pedido", cascade = CascadeType.ALL)
 	private List<ItemPedido> itemPedido;
+	
+	
+
+	public Pedido() {
+		super();
+	}
+
+	public Pedido(Long id, LocalDate dataPedido, LocalDate dataEntrega, LocalDate dataEnvio,
+			@NotBlank(message = "Digete o status") @Size(max = 1, message = "Status tem que ser {max} caracter") String status,
+			Double valorTotal, Cliente cliente, List<ItemPedido> itemPedido) {
+		super();
+		this.id = id;
+		this.dataPedido = dataPedido;
+		this.dataEntrega = dataEntrega;
+		this.dataEnvio = dataEnvio;
+		this.status = status;
+		this.valorTotal = valorTotal;
+		this.cliente = cliente;
+		this.itemPedido = itemPedido;
+	}
 
 	public Long getId() {
 		return id;

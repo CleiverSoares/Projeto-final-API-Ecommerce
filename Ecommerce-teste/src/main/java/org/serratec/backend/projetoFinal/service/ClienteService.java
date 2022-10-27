@@ -47,7 +47,6 @@ public class ClienteService {
 				clienteInserirDTO.getNumero());
 		Cliente cliente = new Cliente(clienteInserirDTO, endereco);
 		Cliente clienteDb = clienteRepository.save(cliente);
-		mailConfig.sendEmail(clienteInserirDTO.getEmail(), "Cadastro Efetuado", clienteInserirDTO.toString());
 		return clienteDb;
 	}
 

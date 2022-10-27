@@ -8,6 +8,8 @@ import javax.validation.Valid;
 import org.serratec.backend.projetoFinal.domain.Pedido;
 import org.serratec.backend.projetoFinal.dto.PedidoDTO;
 import org.serratec.backend.projetoFinal.dto.PedidoInserirDTO;
+import org.serratec.backend.projetoFinal.exception.EmailException;
+import org.serratec.backend.projetoFinal.exception.PedidoException;
 import org.serratec.backend.projetoFinal.service.PedidoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -38,17 +40,25 @@ public class PedidoController {
 	}
 
 	@GetMapping("/{id}")
-	public ResponseEntity<Pedido> getPedido(@PathVariable Long id) {
-		Optional<Pedido> pedidoExistente = service.encontrarPedido(id);
-		if (pedidoExistente.isPresent()) {
-			return ResponseEntity.ok(pedidoExistente.get());
-		}
-		return ResponseEntity.notFound().build();
-	}
+	
+	
+	public ResponseEntity<PedidoDTO> buscarPorId(@PathVariable Long id) throws PedidoException {
+	        return ResponseEntity.ok(service.encontrarPedidoDTO(id));
+	    }
+//	public ResponseEntity<Pedido> getPedido(@PathVariable Long id) {
+//		Optional<Pedido> pedidoExistente = service.encontrarPedido(id);
+//		if (pedidoExistente.isPresent()) {
+//			return ResponseEntity.ok(pedidoExistente.get());
+//		}
+//		return ResponseEntity.notFound().build();
+//	}
 
+	
+	
 	@PostMapping
-	public ResponseEntity<Pedido> salvar(@Valid @RequestBody PedidoInserirDTO pedido) {
+	public ResponseEntity<Pedido> salvar(@Valid @RequestBody PedidoInserirDTO pedido) throws EmailException {
 		Pedido pedidoSalva = service.salvarPedido(pedido);
+
 		return new ResponseEntity<>(pedidoSalva, HttpStatus.CREATED);
 	}
 

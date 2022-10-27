@@ -16,7 +16,7 @@ public class PedidoInserirDTO {
 	private String status;
 
 	private Cliente cliente;
-
+	
 	private List<PedidoItemInserirDTO> pedidoItemInserirDTO;
 
 	public LocalDate getDataPedido() {
